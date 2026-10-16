@@ -1,3 +1,4 @@
+
 mod api;
 mod http;
 mod led;
@@ -25,7 +26,9 @@ fn main() -> Result<()> {
     // LED GPIO48
     // ==========================
 
-    let led = led::Led::new(PinDriver::output(peripherals.pins.gpio48)?);
+    let board_led = led::Led::new(PinDriver::output(peripherals.pins.gpio48)?);
+
+    let light_led  = led::Led::new(PinDriver::output(peripherals.pins.gpio1)?);
 
 
     // ==========================
@@ -38,7 +41,7 @@ fn main() -> Result<()> {
     // HTTP
     // ==========================
 
-    let _server = http::start_http_server(led.clone(), ip.to_string())?;
+    let _server = http::start_http_server(board_led.clone(),light_led.clone(), ip.to_string())?;
 
     info!("HTTP server started");
 
